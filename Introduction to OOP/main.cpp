@@ -60,7 +60,7 @@ public:
 		this->x = other.x;
 		this->y = other.y;
 		cout << "CopyAssigment:\t\t" << this << endl;
-		return *this;
+		
 	}
 
 
@@ -77,23 +77,65 @@ public:
 	{
 		cout << this << ":\tX = " << x << ":\tY = " << y << endl;
 	}
+
+	Point& operator++()
+	{
+		x++;
+		y++;
+		return *this;
+	}
+	Point operator++(int)
+	{
+		Point old = *this;
+		x++;
+		y++;
+		return old;
+	}
+
+	double distance(const Point& A, const Point& B)
+	{
+		//A.set_x(A.get_x() * 100);
+		double x_distance = A.get_x() - B.get_x();
+		double y_distance = A.get_y() - B.get_y();
+		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
+		return distance;
+	}
 };
 
-double distance(const Point& A, const Point& B)
+
+Point& operator+(const Point& left, const Point& right)
 {
-	//A.set_x(A.get_x() * 100);
-	double x_distance = A.get_x() - B.get_x();
-	double y_distance = A.get_y() - B.get_y();
-	double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
-	return distance;
+	Point result;
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	return result;
+}
+
+bool operator==(const Point& left, const Point right)
+{
+/*
+	if (left.get_x() == right.get_x() && left.get_y() == right.get_y())
+		return true;
+	else
+		return false;
+*/
+	/*if (condition)
+	{
+		 
+	}
+	*/
+	return left.get_x() == right.get_x() && left.get_y() == right.get_y();
+}
+bool operator!=(const Point& left, const Point& right)
+{
+	return !(left == right);
 }
 
 //#define STRUCT_POINT
 //#define DISTANCE_CHECK
 //#define CONSTRUCTORS_CHECK
-
-Point A, B, C;
-A = B = C = Point(2, 3);
+//#define ASSIGNMENT_CHECK
+//#define ARITHMETICAL_CHECK
 
 void main()
 {
@@ -152,6 +194,21 @@ void main()
 	Point E;
 	E = D;
 #endif
+#ifdef ASSIGNMENT_CHECK
+	Point A, B, C;
+	A = B = C = Point(2, 3);
+#endif
+#ifdef ARITHMETICAL_CHECK
+	Point A(2, 3);
+	Point B(7, 8);
+	Point C = A + B;
+	C.Print();
 
+	A = ++B;
+	A.Print();
+	B.Print();
+#endif
 
+	cout<< (Point(2, 3) != Point(2,3))<<endl;
+	
 }
